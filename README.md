@@ -16,10 +16,14 @@ Launch dashboard
 
 ## Kubectl
 
-Apply Træfik
+### Træfik
 
     kubectl apply -f traefik/
 
 Get minikube ip and set host:
 
     traefik-ui.minikube
+
+### Jenkns
+
+    kubectl apply -f jenkins/
