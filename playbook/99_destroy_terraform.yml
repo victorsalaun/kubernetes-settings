@@ -1,0 +1,24 @@
+- hosts: localhost
+  name: Terraform | Destroy GCP resources
+  connection: local
+  become: false
+  gather_facts: false
+
+  vars:
+    terraform_gcp_dir: ../terraform/gcp
+
+  pre_tasks:
+
+  - name: Terraform | Init
+    shell: |
+      terraform init -no-color -reconfigure
+    args:
+      chdir: '{{ terraform_gcp_dir }}'
+
+  tasks:
+
+  - name: Terraform | Destroy
+    shell: |
+      terraform destroy -force
+    args:
+      chdir: '{{ terraform_gcp_dir }}'

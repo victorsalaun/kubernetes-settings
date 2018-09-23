@@ -24,6 +24,20 @@ Get minikube ip and set host:
 
     traefik-ui.minikube
 
-### Jenkns
+### Jenkins
 
     kubectl apply -f jenkins/
+   
+Get minikube ip and set host:
+
+    jenkins.minikube
+
+### Elastic Stack
+
+Create Docker images:
+
+    
+
+Apply configuration files:
+
+    kubectl apply -f elastic/
