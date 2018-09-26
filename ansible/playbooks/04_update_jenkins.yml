@@ -1,0 +1,21 @@
+- hosts: localhost
+  name: Jenkins | Create resources
+  become: false
+  connection: local
+  gather_facts: false
+
+  pre_tasks:
+
+  - name: Kubectl config
+    shell: |
+      gcloud container clusters get-credentials tf-gke-helm --region {{ kubernetes_cluster_region }}
+
+  tasks:
+
+  - name: Update Jenkins ConfigMap
+    shell: |
+      kubectl apply -f helm/jenkins/jenkins-casc-config.yaml
+
+  - name: Update Jenkins Helm
+    shell: |
+      helm upgrade --force -f helm/jenkins/values.yml jenkins stable/jenkins

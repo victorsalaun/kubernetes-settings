@@ -1,0 +1,11 @@
+- hosts: localhost
+  name: Jenkins | Destroy resources
+  connection: local
+  become: false
+  gather_facts: false
+
+  tasks:
+
+  - name: Destroy Jenkins Helm
+    shell: |
+      helm delete --purge jenkins

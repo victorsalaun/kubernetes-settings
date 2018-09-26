@@ -1,0 +1,21 @@
+- hosts: localhost
+  name: Jenkins | Create resources
+  become: false
+  connection: local
+  gather_facts: false
+
+  pre_tasks:
+
+  - name: Kubectl config
+    shell: |
+      gcloud container clusters get-credentials tf-gke-helm --region {{ kubernetes_cluster_region }}
+
+  tasks:
+
+  - name: Deploy Jenkins ConfigMap
+    shell: |
+      kubectl create -f helm/jenkins/jenkins-casc-config.yaml
+
+  - name: Create Jenkins Helm
+    shell: |
+      helm install --name jenkins stable/jenkins -f helm/jenkins/values.yml
