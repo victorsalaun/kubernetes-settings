@@ -1,0 +1,24 @@
+- hosts: localhost
+  name: Terraform | Destroy Kubernetes resources
+  connection: local
+  become: false
+  gather_facts: false
+
+  pre_tasks:
+
+  - name: Terraform | Init
+    shell: |
+      terraform init \
+      -no-color \
+      -reconfigure
+    args:
+      chdir: '{{ terraform_dir }}'
+
+  tasks:
+
+  - name: Terraform | Destroy
+    shell: |
+      terraform destroy \
+      -force
+    args:
+      chdir: '{{ terraform_dir }}'

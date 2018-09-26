@@ -1,0 +1,2 @@
+terraform_dir: ../../terraform/gcp
+kubernetes_cluster_region: europe-west2-a

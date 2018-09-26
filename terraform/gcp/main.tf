@@ -1,5 +1,6 @@
 provider "google" {
-  region = "${var.region}"
+  region  = "${var.region}"
+  project = "${var.project}"
 }
 
 data "google_client_config" "current" {}
@@ -18,7 +19,7 @@ resource "google_compute_subnetwork" "default" {
 }
 
 data "google_container_engine_versions" "default" {
-  zone    = "${var.zone}"
+  zone = "${var.zone}"
 }
 
 resource "google_container_cluster" "default" {
@@ -33,4 +34,16 @@ resource "google_container_cluster" "default" {
   //   https://github.com/mcuadros/terraform-provider-helm/issues/56
   //   https://github.com/terraform-providers/terraform-provider-kubernetes/pull/73
   enable_legacy_abac = true
+
+  node_config {
+    machine_type = "${var.node_machine_type}"
+    disk_size_gb = "${var.node_disk_size}"
+
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/compute",
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring",
+    ]
+  }
 }

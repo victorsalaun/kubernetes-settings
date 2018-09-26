@@ -1,0 +1,33 @@
+- hosts: localhost
+  name: Terraform | Create Kubernetes resources
+  become: false
+  connection: local
+  gather_facts: false
+
+  pre_tasks:
+
+  - name: Terraform | Init
+    shell: |
+      terraform init \
+      -no-color \
+      -reconfigure
+    args:
+      chdir: '{{ terraform_dir }}'
+  - debug: var=inventory_file verbosity=2
+
+  tasks:
+
+  - name: Terraform | Plan changes
+    shell: |
+      terraform plan \
+      -no-color
+    args:
+      chdir: '{{ terraform_dir }}'
+
+  - name: Terraform | Apply changes
+    shell: |
+      terraform apply \
+      -no-color \
+      -auto-approve
+    args:
+      chdir: '{{ terraform_dir }}'
