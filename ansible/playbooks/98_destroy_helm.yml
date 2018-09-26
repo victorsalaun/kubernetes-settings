@@ -1,0 +1,15 @@
+- hosts: localhost
+  name: Helm | Destroy resources
+  connection: local
+  become: false
+  gather_facts: false
+
+  tasks:
+
+  - name: Destroy Tiller Cluster Role Binding
+    shell: |
+      kubectl delete clusterrolebinding tiller-admin-binding
+
+  - name: Destroy Helm Cluster Role Binding
+    shell: |
+      kubectl delete clusterrolebinding cluster-admin-binding

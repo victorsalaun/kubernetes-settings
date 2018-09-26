@@ -1,0 +1,33 @@
+- hosts: localhost
+  name: Helm | Create resources
+  become: false
+  connection: local
+  gather_facts: false
+
+  pre_tasks:
+
+  - name: Kubectl config
+    shell: |
+      gcloud container clusters get-credentials tf-gke-helm --region {{ kubernetes_cluster_region }}
+
+  tasks:
+
+  - name: Create Cluster Role Binding
+    shell: |
+      kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin
+
+  - name: Create Tiller Service
+    shell: |
+      kubectl create serviceaccount tiller --namespace kube-system
+
+  - name: Create Tiller Cluster Role Binding
+    shell: |
+      kubectl create clusterrolebinding tiller-admin-binding --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+  - name: Helm Init
+    shell: |
+      helm init --service-account=tiller
+
+  - name: Helm Update
+    shell: |
+      helm update
