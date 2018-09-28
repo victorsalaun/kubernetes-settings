@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: jenkins-teamb-casc
+data:
+    jenkinsteambcasc.yaml: |
+        jenkins:
+            systemMessage: "Team B"
+        jobs:
+        - script: >
+              multibranchPipelineJob('configuration-as-code') {
+                  branchSources {
+                      git {
+                          id = 'configuration-as-code'
+                          remote('https://github.com/jenkinsci/configuration-as-code-plugin.git')
+                      }
+                  }
+              }

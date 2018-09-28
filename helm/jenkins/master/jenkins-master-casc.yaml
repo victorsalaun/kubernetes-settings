@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: jenkins-casc-config
+    name: jenkins-master-casc
 data:
-    jenkins.yaml: |
+    jenkinsmastercasc.yaml: |
         jenkins:
-            systemMessage: "Simple seed job example"
+            systemMessage: "master"
         jobs:
         - script: >
               multibranchPipelineJob('configuration-as-code') {

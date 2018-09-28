@@ -12,10 +12,26 @@
 
   tasks:
 
-  - name: Deploy Jenkins ConfigMap
+  - name: Deploy Jenkins Master ConfigMap
     shell: |
-      kubectl create -f helm/jenkins/jenkins-casc-config.yaml
+      kubectl create -f helm/jenkins/master/jenkins-master-casc.yaml
 
-  - name: Create Jenkins Helm
+  - name: Create Jenkins Master Helm
     shell: |
-      helm install --name jenkins stable/jenkins -f helm/jenkins/values.yml
+      helm install --name jenkins-master stable/jenkins -f helm/jenkins/master/values.yml
+
+  - name: Deploy Jenkins Team A ConfigMap
+    shell: |
+      kubectl create -f helm/jenkins/team_a/jenkins-teama-casc.yaml
+
+  - name: Create Jenkins Team A Helm
+    shell: |
+      helm install --name jenkins-teama stable/jenkins -f helm/jenkins/team_a/values.yml
+
+  - name: Deploy Jenkins Team B ConfigMap
+    shell: |
+      kubectl create -f helm/jenkins/team_b/jenkins-teamb-casc.yaml
+
+  - name: Create Jenkins Team B Helm
+    shell: |
+      helm install --name jenkins-teamb stable/jenkins -f helm/jenkins/team_b/values.yml

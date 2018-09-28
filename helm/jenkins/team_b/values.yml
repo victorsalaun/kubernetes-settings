@@ -1,0 +1,44 @@
+Master:
+  Name: jenkins-master
+  Image: "jenkins/jenkins"
+  ImageTag: "2.134-alpine"
+  ImagePullPolicy: "IfNotPresent"
+  Component: "jenkins-master"
+  UseSecurity: true
+  AdminUser: admin
+  AdminPassword: "formetoknowforyoutofindout"
+  Cpu: "200m"
+  Memory: "1024Mi"
+
+  InitContainerEnv:
+
+  ContainerEnv:
+  # Tell the plugin where to find its config. The '..data'
+  # part is needed for now due to this bug:
+  # https://github.com/jenkinsci/configuration-as-code-plugin/issues/425
+  - name: CASC_JENKINS_CONFIG
+    value: /var/jenkins_home/jenkins-teamb-casc/..data/jenkinsteambcasc.yaml
+
+  # List of plugins to be install during Jenkins master start
+  # mind the last plugin in the list now ;)
+  InstallPlugins:
+  - kubernetes:latest
+  - kubernetes-credentials:latest
+  - workflow-aggregator:latest
+  - workflow-job:latest
+  - credentials-binding:latest
+  - git:latest
+  - job-dsl:latest
+  - configuration-as-code:1.0
+  # You might also need this for a couple of third-party plugins (e.g. for setting credentials)
+  - configuration-as-code-support:1.0
+
+Persistence:
+  volumes:
+  - name: jenkins-teamb-casc
+    configMap:
+      name: jenkins-teamb-casc
+  mounts:
+  - name: jenkins-teamb-casc
+    mountPath: /var/jenkins_home/jenkins-teamb-casc
+    readOnly: true

@@ -4,8 +4,34 @@
   become: false
   gather_facts: false
 
+  pre_tasks:
+
+  - name: Kubectl config
+    shell: |
+      gcloud container clusters get-credentials tf-gke-helm --region {{ kubernetes_cluster_region }}
+
   tasks:
 
-  - name: Destroy Jenkins Helm
+  - name: Destroy Jenkins Master Helm
     shell: |
-      helm delete --purge jenkins
+      helm delete --purge jenkins-master
+
+  - name: Destroy Jenkins Master ConfigMap
+    shell: |
+      kubectl delete configmap jenkins-master-casc
+
+  - name: Destroy Jenkins Team A Helm
+    shell: |
+      helm delete --purge jenkins-teama
+
+  - name: Destroy Jenkins Team A ConfigMap
+    shell: |
+      kubectl delete configmap jenkins-teama-casc
+
+  - name: Destroy Jenkins Team B Helm
+    shell: |
+      helm delete --purge jenkins-teamb
+
+  - name: Destroy Jenkins Team B ConfigMap
+    shell: |
+      kubectl delete configmap jenkins-teamb-casc

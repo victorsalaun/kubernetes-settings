@@ -12,10 +12,26 @@
 
   tasks:
 
-  - name: Update Jenkins ConfigMap
+  - name: Update Jenkins Master ConfigMap
     shell: |
-      kubectl apply -f helm/jenkins/jenkins-casc-config.yaml
+      kubectl apply -f helm/jenkins/master/jenkins-master-config.yaml
 
-  - name: Update Jenkins Helm
+  - name: Update Jenkins Master Helm
     shell: |
-      helm upgrade --force -f helm/jenkins/values.yml jenkins stable/jenkins
+      helm upgrade --force -f helm/jenkins/master/values.yml jenkins-master stable/jenkins
+
+  - name: Update Jenkins Team A ConfigMap
+    shell: |
+      kubectl apply -f helm/jenkins/team_a/jenkins-teama-config.yaml
+
+  - name: Update Jenkins Team A Helm
+    shell: |
+      helm upgrade --force -f helm/jenkins/team_a/values.yml jenkins-teama stable/jenkins
+
+  - name: Update Jenkins Team B ConfigMap
+    shell: |
+      kubectl apply -f helm/jenkins/team_b/jenkins-teamb-config.yaml
+
+  - name: Update Jenkins Team B Helm
+    shell: |
+      helm upgrade --force -f helm/jenkins/team_b/values.yml jenkins-teamb stable/jenkins
